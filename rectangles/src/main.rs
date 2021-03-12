@@ -3,33 +3,28 @@ fn main() {
     let height1 = 50;
 
     println!(
-        "The area of the rectangle is {} square pixels.",
+        "area_simple(width1, height1) = {}",
         area_simple(width1, height1)
     );
 
     let tuple = (30, 50);
     println!(
-        "The area of the rectangle is {} square pixels.",
+        "area_tuples(tuple) = {}",
         area_tuples(tuple)
-    );
-
-    let rectangle = Rectangle { 
-        width: 30, 
-        height: 50 
-    };
-    println!("rectangle is {:?}", rectangle);
-    println!("rectangle is {:#?}", rectangle);
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        area_struct(rectangle)
     );
 
     let rectangle1 = Rectangle { 
         width: 30, 
         height: 50 
     };
+    println!("rectangle1 is {:?}", rectangle1);
+    println!("rectangle1 is {:#?}", rectangle1);
     println!(
-        "The area of the rectangle1 is {} square pixels.",
+        "area_struct(rectangle1) = {}",
+        area_struct(rectangle1)
+    );
+    println!(
+        "rectangle1.area() = {}",
         rectangle1.area()
     );
 
@@ -38,13 +33,9 @@ fn main() {
         width: 30, 
         height: 50 
     };
-    let rectangle3 = Rectangle { 
-        width: 10, 
-        height: 20 
-    };
     println!(
-        "Can rectangle2 hold rectangle3: {}",
-        rectangle2.can_hold(&rectangle3)
+        "rectangle2.can_hold(&rectangle1) = {}",
+        rectangle2.can_hold(&rectangle1)
     );
 
     let square = Rectangle::square(3);
@@ -65,7 +56,7 @@ fn area_struct(rect: Rectangle) -> u32 {
     rect.width * rect.height
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 struct Rectangle {
     width: u32,
     height: u32
