@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use indexmap::IndexMap;
 
 fn main() {
     let numbers = vec![1, 2, 3, 4, 5, 1, 4, 4, 1];
@@ -28,7 +29,7 @@ fn mean(numbers: &Vec<i32>) -> i32 {
 }
 
 fn mode(numbers: &Vec<i32>) -> &i32 {
-    let mut map = HashMap::new();
+    let mut map = IndexMap::new();
 
     for num in numbers {
         let count = map.entry(num).or_insert(0);
