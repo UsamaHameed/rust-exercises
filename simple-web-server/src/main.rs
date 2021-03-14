@@ -28,6 +28,7 @@ fn handle_connection(mut stream: TcpStream) {
             contents
         );
 
+        println!("received request, responding with some html: ");
         stream.write(response.as_bytes()).unwrap();
         stream.flush().unwrap();
     } else {
@@ -36,6 +37,7 @@ fn handle_connection(mut stream: TcpStream) {
 
         let response = format!("{}{}", status_line, contents);
 
+        println!("received request, responding with 404: ");
         stream.write(response.as_bytes()).unwrap();
         stream.flush().unwrap();
     }
