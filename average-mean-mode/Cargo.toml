@@ -1,5 +1,5 @@
 [package]
-name = "integer-average"
+name = "average-mean-mode"
 version = "0.1.0"
 authors = ["UsamaHameed <usamatech2@gmail.com>"]
 edition = "2018"
