@@ -1,7 +1,9 @@
 use std::thread;
+use std::sync::{Arc, Mutex, mpsc};
 
 pub struct ThreadPool {
-	threads: Vec<thread::JoinHandle<()>>
+	workers: Vec<Worker>,
+	sender: mpsc::Sender<Job>
 }
 
 impl ThreadPool {
@@ -12,15 +14,19 @@ impl ThreadPool {
     /// # Panics
     ///
     /// The `new` function will panic if the size is zero.
-	fn new(size: usize) -> ThreadPool {
+	pub fn new(size: usize) -> ThreadPool {
 		assert!(size > 0);
-		let mut threads = Vec::with_capacity(size);
+		
+		let (sender, receiver) = mpsc::channel();
+		let mut workers = Vec::with_capacity(size);
+		
+		let receiver = Arc::new(Mutex::new(receiver));
 
-		for i in 0..size {
-			
+		for id in 0..size {
+			workers.push(Worker::new(id, Arc::clone(&receiver)));
 		}
 
-		ThreadPool { threads }
+		ThreadPool { workers, sender }
 	}
 
 	pub fn execute<F>(&self, f: F) 
@@ -29,3 +35,19 @@ impl ThreadPool {
 
 	}
 }
+
+struct Worker {
+	id: usize,
+	thread: thread::JoinHandle<()>
+}
+
+impl Worker {
+	fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+		let thread = thread::spawn(|| {
+			receiver;
+		});
+		Worker { id, thread }
+	}
+}
+
+struct Job;
